@@ -12,17 +12,8 @@
 </head>
 <body>
 
-  <!-- Persistent Crisis Helpline Bar (Visible on every screen) -->
-  <div id="crisis" class="crisis-banner" role="banner" aria-label="Crisis Support Helpline">
-    <div class="crisis-content">
-      <svg class="crisis-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-      </svg>
-      <span class="crisis-text">
-        In crisis? Call Tele-MANAS <a href="tel:14416" class="crisis-link">14416</a> (free, 24/7) or <a href="tel:112" class="crisis-link">112</a> for emergencies.
-      </span>
-    </div>
-  </div>
+  <!-- Hidden anchor for crisis element compatibility -->
+  <div id="crisis" class="hidden" aria-hidden="true"></div>
 
   <!-- Screen 1: Logged-out Landing / Auth Screen -->
   <section id="auth" class="auth-wrapper">
@@ -30,25 +21,31 @@
       <!-- Centered Hero -->
       <header class="auth-hero">
         <div class="brand-logo" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none" class="logo-mark">
-            <circle cx="24" cy="24" r="22" class="logo-bg" />
-            <path d="M24 10C18 10 14 15 14 21C14 28 24 37 24 37C24 37 34 28 34 21C34 15 30 10 24 10Z" class="logo-heart" />
-            <path d="M20 23C20 20.8 21.8 19 24 19C26.2 19 28 20.8 28 23C28 25.5 24 29 24 29C24 29 20 25.5 20 23Z" class="logo-core" />
+          <svg viewBox="0 0 54 54" fill="none" class="logo-mark">
+            <defs>
+              <linearGradient id="logo-teal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#32B5CB" />
+                <stop offset="100%" stop-color="#1E7A8A" />
+              </linearGradient>
+            </defs>
+            <circle cx="27" cy="27" r="25" class="logo-circle-neu" />
+            <path d="M27 12C20.5 12 16 17.5 16 24C16 31.5 27 41 27 41C27 41 38 31.5 38 24C38 17.5 33.5 12 27 12Z" fill="url(#logo-teal-grad)" />
+            <circle cx="27" cy="24" r="5" fill="#FFFFFF" fill-opacity="0.9" />
           </svg>
         </div>
         <h1 class="brand-title">SafeSpace</h1>
         <p class="brand-tagline">A safe, anonymous space to talk.</p>
 
-        <!-- Anonymity Promise Chips -->
+        <!-- Anonymity Promise Chips (Neumorphic raised pills) -->
         <div class="anon-chips" aria-label="Anonymity guarantees">
-          <span class="chip">
+          <span class="neu-pill">
             <svg viewBox="0 0 20 20" fill="currentColor" class="chip-icon" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
               <path d="M3 3l14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
             No name
           </span>
-          <span class="chip">
+          <span class="neu-pill">
             <svg viewBox="0 0 20 20" fill="currentColor" class="chip-icon" aria-hidden="true">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
               <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
@@ -56,7 +53,7 @@
             </svg>
             No email
           </span>
-          <span class="chip">
+          <span class="neu-pill">
             <svg viewBox="0 0 20 20" fill="currentColor" class="chip-icon" aria-hidden="true">
               <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 4V3z"/>
               <path d="M3 3l14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -68,12 +65,12 @@
       </header>
 
       <!-- Role Selection Cards -->
-      <div class="card auth-card">
+      <div class="neu-card auth-card">
         <h2 class="card-heading">Create anonymous account</h2>
 
         <div class="role-grid" role="radiogroup" aria-label="Select your role">
-          <!-- Role: Person (Primary / Highlighted) -->
-          <button type="button" class="role-card role-card-primary active" id="role-person" onclick="selectRole('person')" role="radio" aria-checked="true">
+          <!-- Role: Person -->
+          <button type="button" class="neu-role-card active" id="role-person" onclick="selectRole('person')" role="radio" aria-checked="true">
             <div class="role-card-header">
               <span class="role-icon-box role-icon-person" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -81,7 +78,7 @@
                 </svg>
               </span>
               <div class="role-card-title-group">
-                <span class="role-card-badge badge-person">Person</span>
+                <span class="role-tag tag-person">Person</span>
                 <span class="role-card-title">I want to share what I'm going through</span>
               </div>
             </div>
@@ -89,7 +86,7 @@
           </button>
 
           <!-- Role: Therapist -->
-          <button type="button" class="role-card" id="role-therapist" onclick="selectRole('therapist')" role="radio" aria-checked="false">
+          <button type="button" class="neu-role-card" id="role-therapist" onclick="selectRole('therapist')" role="radio" aria-checked="false">
             <div class="role-card-header">
               <span class="role-icon-box role-icon-therapist" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -97,7 +94,7 @@
                 </svg>
               </span>
               <div class="role-card-title-group">
-                <span class="role-card-badge badge-therapist">Therapist</span>
+                <span class="role-tag tag-therapist">Therapist</span>
                 <span class="role-card-title">I'm a therapist</span>
               </div>
             </div>
@@ -105,7 +102,7 @@
           </button>
 
           <!-- Role: Psychiatrist -->
-          <button type="button" class="role-card" id="role-psychiatrist" onclick="selectRole('psychiatrist')" role="radio" aria-checked="false">
+          <button type="button" class="neu-role-card" id="role-psychiatrist" onclick="selectRole('psychiatrist')" role="radio" aria-checked="false">
             <div class="role-card-header">
               <span class="role-icon-box role-icon-psychiatrist" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -113,7 +110,7 @@
                 </svg>
               </span>
               <div class="role-card-title-group">
-                <span class="role-card-badge badge-psychiatrist">Psychiatrist</span>
+                <span class="role-tag tag-psychiatrist">Psychiatrist</span>
                 <span class="role-card-title">I'm a psychiatrist</span>
               </div>
             </div>
@@ -121,7 +118,7 @@
           </button>
         </div>
 
-        <button id="btn-create-account" class="btn btn-primary btn-block" onclick="submitRegistration()">
+        <button id="btn-create-account" class="btn btn-primary btn-block btn-gradient" onclick="submitRegistration()">
           Create Anonymous Account
         </button>
 
@@ -131,11 +128,13 @@
       </div>
 
       <!-- Login Section -->
-      <div class="card auth-card login-card">
+      <div class="neu-card auth-card login-card">
         <h2 class="card-heading card-heading-sm">Already have an account?</h2>
         <p class="mute login-subtext">Enter your 32-character secret code to sign back in.</p>
         <div class="login-input-group">
-          <input id="code" type="text" placeholder="Enter your secret code" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')login()">
+          <div class="neu-input-wrap">
+            <input id="code" type="text" placeholder="Enter your secret code" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')login()">
+          </div>
           <button id="btn-login" class="btn btn-primary" onclick="login()">Log in</button>
         </div>
       </div>
@@ -150,15 +149,15 @@
       <div class="sidebar-top">
         <!-- Logo -->
         <div class="sidebar-brand">
-          <svg viewBox="0 0 48 48" fill="none" class="sidebar-logo-mark" aria-hidden="true">
-            <circle cx="24" cy="24" r="22" class="logo-bg" />
-            <path d="M24 10C18 10 14 15 14 21C14 28 24 37 24 37C24 37 34 28 34 21C34 15 30 10 24 10Z" class="logo-heart" />
-            <path d="M20 23C20 20.8 21.8 19 24 19C26.2 19 28 20.8 28 23C28 25.5 24 29 24 29C24 29 20 25.5 20 23Z" class="logo-core" />
+          <svg viewBox="0 0 54 54" fill="none" class="sidebar-logo-mark" aria-hidden="true">
+            <circle cx="27" cy="27" r="25" class="logo-circle-neu" />
+            <path d="M27 12C20.5 12 16 17.5 16 24C16 31.5 27 41 27 41C27 41 38 31.5 38 24C38 17.5 33.5 12 27 12Z" fill="url(#logo-teal-grad)" />
+            <circle cx="27" cy="24" r="5" fill="#FFFFFF" fill-opacity="0.9" />
           </svg>
           <span class="sidebar-brand-name">SafeSpace</span>
         </div>
 
-        <!-- Navigation Links -->
+        <!-- Navigation Links (Neumorphic buttons) -->
         <nav class="sidebar-nav" role="tablist">
           <button id="t-feed" class="sidebar-nav-item on" onclick="tab('feed')" role="tab" aria-selected="true" aria-label="Home">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
@@ -193,11 +192,24 @@
             </svg>
             <span class="nav-label">Profile</span>
           </button>
+
+          <!-- Quiet Support item -->
+          <button id="t-support" class="sidebar-nav-item sidebar-support-item" onclick="crisisNote()" aria-label="Crisis Support">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="4"></circle>
+              <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line>
+              <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line>
+              <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"></line>
+              <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"></line>
+            </svg>
+            <span class="nav-label">Support</span>
+          </button>
         </nav>
 
-        <!-- Prominent Post Button -->
-        <button id="btn-sidebar-post" class="btn btn-primary btn-post-cta" onclick="focusComposer()" aria-label="Create Post">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon mobile-post-icon" aria-hidden="true">
+        <!-- Prominent Neumorphic Post Button -->
+        <button id="btn-sidebar-post" class="btn btn-primary btn-post-cta btn-gradient" onclick="focusComposer()" aria-label="Create Post">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-icon mobile-post-icon" aria-hidden="true">
             <path d="M12 5v14M5 12h14"></path>
           </svg>
           <span class="post-btn-text">Post</span>
@@ -205,11 +217,11 @@
       </div>
 
       <!-- Bottom User Card with Logout -->
-      <div id="sidebar-user-card" class="sidebar-user-footer">
+      <div id="sidebar-user-card" class="neu-card-flat sidebar-user-footer">
         <div class="sidebar-user-info" onclick="tab('profile')">
           <div id="me" class="user-identity"></div>
         </div>
-        <button class="btn btn-ghost btn-sm btn-logout" onclick="logout()" title="Log out" aria-label="Log out">
+        <button class="btn btn-icon-round btn-logout" onclick="logout()" title="Log out" aria-label="Log out">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -219,7 +231,7 @@
       </div>
     </aside>
 
-    <!-- CENTER COLUMN (max ~600px, main feeds & chats) -->
+    <!-- CENTER COLUMN (max ~620px) -->
     <main class="app-center">
       <!-- Sticky Top Header Bar -->
       <header class="center-top-bar">
@@ -228,8 +240,8 @@
 
       <!-- 1. Home / Feed Panel -->
       <section id="feed" class="center-panel" role="tabpanel" aria-labelledby="t-feed">
-        <!-- Inline Composer Card -->
-        <div class="composer-box">
+        <!-- Neumorphic Composer Box -->
+        <div class="neu-card composer-box">
           <div class="composer-main">
             <div id="composer-user-avatar" class="avatar-circle composer-avatar" aria-hidden="true">U</div>
             <div class="composer-input-wrap">
@@ -239,18 +251,45 @@
           </div>
           <div class="composer-footer">
             <span id="post-counter" class="char-counter">0 / 1000</span>
-            <button id="btn-post" class="btn btn-primary btn-sm" onclick="sendPost()" disabled>Post</button>
+            <button id="btn-post" class="btn btn-primary btn-sm btn-gradient" onclick="sendPost()" disabled>Post</button>
           </div>
         </div>
 
-        <!-- Flat Posts Feed -->
-        <div id="posts" class="posts-feed-flat" aria-live="polite"></div>
+        <!-- Raised Posts Feed (Neumorphic Cards with breathing room) -->
+        <div id="posts" class="posts-feed-neu" aria-live="polite"></div>
       </section>
 
       <!-- 2. Explore / People Panel -->
       <section id="people" class="center-panel hidden" role="tabpanel" aria-labelledby="t-people">
+        <!-- Community Activity Neumorphic Card (Section 4b) -->
+        <div class="neu-card community-stats-card">
+          <div class="stats-card-header">
+            <h3 class="widget-title">Community Activity</h3>
+            <span class="mute stats-subtitle">Last 7 Days</span>
+          </div>
+
+          <div class="stats-charts-grid">
+            <!-- 7-Day Activity Bar Chart -->
+            <div class="stat-chart-col">
+              <h4 class="chart-mini-label">Posts per Day</h4>
+              <div id="chart-activity" class="chart-box" role="img" aria-label="Bar chart showing posts per day over the last 7 days">
+                <!-- SVG Bar Chart inserted by JS -->
+              </div>
+            </div>
+
+            <!-- Role Mix Donut Chart -->
+            <div class="stat-chart-col">
+              <h4 class="chart-mini-label">Community Roles</h4>
+              <div id="chart-roles" class="chart-box" role="img" aria-label="Donut chart showing distribution of member roles">
+                <!-- SVG Donut Chart inserted by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- People List Toolbar -->
         <div class="explore-toolbar">
-          <p class="explore-subtitle mute">Discover members and peers online</p>
+          <p class="explore-subtitle mute">Discover members and peers</p>
           <button id="btn-load-people" class="btn btn-secondary btn-sm refresh-btn" onclick="loadPeople()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
               <polyline points="23 4 23 10 17 10"></polyline>
@@ -260,7 +299,7 @@
             <span>Show new people</span>
           </button>
         </div>
-        <div id="plist" class="people-list-flat" aria-live="polite"></div>
+        <div id="plist" class="people-list-neu" aria-live="polite"></div>
       </section>
 
       <!-- 3. Messages Panel (Two-Pane DM layout) -->
@@ -269,11 +308,13 @@
           <!-- Left Pane: Conversations List -->
           <div id="dms-sidebar-pane" class="dms-convos-pane">
             <div class="dms-search-box">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-              <input id="convos-search" type="text" placeholder="Search conversations..." oninput="filterConversations()">
+              <div class="neu-search-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input id="convos-search" type="text" placeholder="Search conversations..." oninput="filterConversations()">
+              </div>
             </div>
             <div id="convos-list" class="convos-list-container" aria-live="polite"></div>
           </div>
@@ -282,7 +323,7 @@
           <div id="dms-chat-pane" class="dms-chat-pane">
             <!-- Chat Header -->
             <div class="chat-header-bar">
-              <button id="btn-back-to-convos" class="btn btn-ghost btn-sm btn-back-mobile" onclick="backToConvosList()" aria-label="Back to conversations">
+              <button id="btn-back-to-convos" class="btn btn-icon-round btn-back-mobile" onclick="backToConvosList()" aria-label="Back to conversations">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
                   <line x1="19" y1="12" x2="5" y2="12"></line>
                   <polyline points="12 19 5 12 12 5"></polyline>
@@ -295,18 +336,20 @@
                 </div>
               </div>
               <div class="chat-header-actions">
-                <button class="btn btn-ghost btn-sm" onclick="reportCur()" title="Report user">Report</button>
-                <button class="btn btn-ghost btn-sm text-danger" onclick="blockCur()" title="Block user">Block</button>
+                <button class="btn btn-secondary btn-sm" onclick="reportCur()" title="Report user">Report</button>
+                <button class="btn btn-secondary btn-sm text-danger" onclick="blockCur()" title="Block user">Block</button>
               </div>
             </div>
 
-            <!-- Messages Area -->
+            <!-- Inset Messages Area -->
             <div id="msgs" class="chat-feed-stream" aria-live="polite"></div>
 
             <!-- Sticky Chat Input Bar -->
             <div class="chat-bottom-composer">
-              <textarea id="txt" rows="1" placeholder="Type a message..." autocomplete="off" onkeydown="handleChatKeydown(event)"></textarea>
-              <button id="btn-send-dm" class="btn btn-primary" onclick="sendDM()" aria-label="Send message">
+              <div class="neu-input-wrap chat-input-inner">
+                <textarea id="txt" rows="1" placeholder="Type a message..." autocomplete="off" onkeydown="handleChatKeydown(event)"></textarea>
+              </div>
+              <button id="btn-send-dm" class="btn btn-primary btn-gradient" onclick="sendDM()" aria-label="Send message">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
                   <line x1="22" y1="2" x2="11" y2="13"></line>
                   <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
@@ -320,57 +363,126 @@
 
       <!-- 4. Profile Panel -->
       <section id="profile" class="center-panel hidden" role="tabpanel" aria-labelledby="t-profile">
-        <div class="profile-card">
-          <div id="profile-avatar" class="avatar-circle profile-avatar-lg" aria-hidden="true">U</div>
-          <h3 id="profile-alias" class="profile-title">Anonymous Member</h3>
-          <div id="profile-badge-row" class="profile-badge-row"></div>
-          <div class="profile-meta-card">
-            <div class="meta-row">
-              <span class="meta-label">Identity Status</span>
-              <span class="meta-value">100% Anonymous</span>
+        <div class="profile-scroll-wrap">
+          <!-- Main Profile Card -->
+          <div class="neu-card profile-card">
+            <div id="profile-avatar" class="avatar-circle profile-avatar-lg" aria-hidden="true">U</div>
+            <h3 id="profile-alias" class="profile-title">Anonymous Member</h3>
+            <div id="profile-badge-row" class="profile-badge-row"></div>
+
+            <!-- Check-in streak indicator (Section 4c) -->
+            <div class="streak-badge-wrap">
+              <div id="profile-streak-ring" class="streak-ring-box"></div>
+              <div class="streak-text-group">
+                <span id="profile-streak-count" class="streak-count">0 Day Streak</span>
+                <span class="streak-sub mute">Consecutive mood check-ins</span>
+              </div>
             </div>
-            <div class="meta-row">
-              <span class="meta-label">Encrypted Alias</span>
-              <span id="profile-alias-code" class="meta-value mono">Protected</span>
+
+            <div class="profile-meta-card">
+              <div class="meta-row">
+                <span class="meta-label">Identity Status</span>
+                <span class="meta-value">100% Anonymous</span>
+              </div>
+              <div class="meta-row">
+                <span class="meta-label">Assigned Alias</span>
+                <span id="profile-alias-code" class="meta-value mono">Protected</span>
+              </div>
             </div>
           </div>
-          <button class="btn btn-secondary btn-block" onclick="logout()">Log out of SafeSpace</button>
+
+          <!-- Extended Mood Chart on Profile (7 / 30 day toggle) -->
+          <div class="neu-card profile-mood-card">
+            <div class="mood-header-row">
+              <h3 class="widget-title">Mood History</h3>
+              <div class="toggle-segmented" role="radiogroup" aria-label="Mood trend range">
+                <button type="button" id="btn-mood-7" class="toggle-btn on" onclick="setProfileMoodRange(7)">7 Days</button>
+                <button type="button" id="btn-mood-30" class="toggle-btn" onclick="setProfileMoodRange(30)">30 Days</button>
+              </div>
+            </div>
+            <div id="mood-chart-profile" class="chart-box-large" role="img" aria-label="Personal mood history chart"></div>
+            <p class="chart-device-note mute">Stored only on this device.</p>
+          </div>
+
+          <!-- Support & Session Card -->
+          <div class="neu-card profile-actions-card">
+            <button class="btn btn-secondary btn-block" onclick="crisisNote()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="4"></circle>
+              </svg>
+              <span>Access 24/7 Crisis Support</span>
+            </button>
+            <button class="btn btn-secondary btn-block text-danger" onclick="logout()">Log out of SafeSpace</button>
+          </div>
         </div>
       </section>
     </main>
 
     <!-- RIGHT COLUMN (~300px desktop, hidden on smaller screens) -->
-    <aside class="app-right" aria-label="Emergency and Suggestions">
-      <!-- Card: Need to talk now? -->
-      <div class="sidebar-widget helpline-widget">
-        <h3 class="widget-title">Need to talk now?</h3>
-        <p class="widget-desc mute">Support is available 24/7. These helplines are confidential and free of charge.</p>
-        <div class="helpline-quick-list">
-          <a href="tel:14416" class="helpline-quick-card">
-            <div class="hl-info">
-              <span class="hl-title">Tele-MANAS Helpline</span>
-              <span class="hl-num">14416</span>
-            </div>
-            <span class="hl-tag">Free 24/7</span>
-          </a>
-          <a href="tel:112" class="helpline-quick-card">
-            <div class="hl-info">
-              <span class="hl-title">National Emergency</span>
-              <span class="hl-num">112</span>
-            </div>
-            <span class="hl-tag">Emergency</span>
-          </a>
+    <aside class="app-right" aria-label="Mood and Suggestions">
+      <!-- Card: Daily Mood Check-in (Section 4a) -->
+      <div class="neu-card mood-widget-card" id="widget-mood">
+        <h3 class="widget-title">How are you feeling today?</h3>
+        <p class="widget-desc mute">One daily check-in to track your personal trend.</p>
+
+        <!-- 5 Neumorphic face buttons (values 1 to 5) -->
+        <div class="mood-selector" role="radiogroup" aria-label="Select today's mood">
+          <button type="button" class="neu-mood-btn" data-value="1" onclick="checkInMood(1)" title="Down" aria-label="Feeling down">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="9" x2="8.01" y2="9"></line>
+              <line x1="16" y1="9" x2="16.01" y2="9"></line>
+              <path d="M16 16c-1.5-2-6.5-2-8 0"></path>
+            </svg>
+          </button>
+          <button type="button" class="neu-mood-btn" data-value="2" onclick="checkInMood(2)" title="Low" aria-label="Feeling low">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="9" x2="8.01" y2="9"></line>
+              <line x1="16" y1="9" x2="16.01" y2="9"></line>
+              <path d="M9 15c1-1 5-1 6 0"></path>
+            </svg>
+          </button>
+          <button type="button" class="neu-mood-btn" data-value="3" onclick="checkInMood(3)" title="Okay" aria-label="Feeling okay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="9" x2="8.01" y2="9"></line>
+              <line x1="16" y1="9" x2="16.01" y2="9"></line>
+              <line x1="8" y1="15" x2="16" y2="15"></line>
+            </svg>
+          </button>
+          <button type="button" class="neu-mood-btn" data-value="4" onclick="checkInMood(4)" title="Good" aria-label="Feeling good">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="9" x2="8.01" y2="9"></line>
+              <line x1="16" y1="9" x2="16.01" y2="9"></line>
+              <path d="M8 14c1.5 2 6.5 2 8 0"></path>
+            </svg>
+          </button>
+          <button type="button" class="neu-mood-btn" data-value="5" onclick="checkInMood(5)" title="Great" aria-label="Feeling great">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="8" y1="9" x2="8.01" y2="9"></line>
+              <line x1="16" y1="9" x2="16.01" y2="9"></line>
+              <path d="M8 13c1.5 3 6.5 3 8 0"></path>
+            </svg>
+          </button>
         </div>
+
+        <!-- 7-Day Line Chart -->
+        <div id="chart-mood-mini" class="chart-box-mood" role="img" aria-label="7-day mood trend chart"></div>
+        <p class="chart-device-note mute">Stored only on this device.</p>
       </div>
 
       <!-- Card: Who to talk to -->
-      <div class="sidebar-widget">
+      <div class="neu-card">
         <h3 class="widget-title">Who to talk to</h3>
         <p class="widget-desc mute">Suggested peers and professionals</p>
         <div id="right-suggested-people" class="suggested-people-list"></div>
       </div>
 
-      <!-- Small Footer Note -->
+      <!-- Footer Note -->
       <footer class="app-right-footer">
         <p class="footer-note mute">SafeSpace is peer support, not a substitute for professional mental health care.</p>
       </footer>
@@ -424,7 +536,7 @@
 
   <!-- In-App Modal: Secret Code Display (Registration) -->
   <div id="modal-code" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-code-title">
-    <div class="modal-card">
+    <div class="neu-card modal-card">
       <div class="modal-header">
         <div class="modal-icon-badge" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -438,7 +550,7 @@
         <p class="modal-desc">
           SafeSpace is completely anonymous. This secret code is the only way to sign back into your account. It <strong>cannot be recovered</strong> if lost.
         </p>
-        <div class="code-box-container">
+        <div class="neu-code-box">
           <code id="display-code" class="secret-code-text"></code>
           <button id="btn-copy-code" class="btn btn-secondary btn-sm" onclick="copySecretCode()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
@@ -454,16 +566,16 @@
         </label>
       </div>
       <div class="modal-footer">
-        <button id="btn-confirm-code" class="btn btn-primary btn-block" onclick="proceedAfterCodeSave()" disabled>
+        <button id="btn-confirm-code" class="btn btn-primary btn-block btn-gradient" onclick="proceedAfterCodeSave()" disabled>
           Enter SafeSpace
         </button>
       </div>
     </div>
   </div>
 
-  <!-- In-App Modal: Crisis Helpline Note -->
+  <!-- In-App Modal: Crisis Helpline Note (Shown on crisis keywords or via Support button) -->
   <div id="modal-crisis" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-crisis-title">
-    <div class="modal-card">
+    <div class="neu-card modal-card">
       <div class="modal-header">
         <div class="modal-icon-badge crisis-badge" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -477,47 +589,49 @@
           If you are experiencing acute distress or need immediate support, please reach out. These helplines are free, confidential, and available 24/7:
         </p>
         <div class="helplines-list">
-          <a href="tel:14416" class="helpline-item">
+          <a href="tel:14416" class="neu-card helpline-item">
             <div class="helpline-details">
               <span class="helpline-name">Tele-MANAS (Mental Health Helpline)</span>
               <span class="helpline-number">14416</span>
             </div>
-            <span class="helpline-call-tag">Call (Free 24/7)</span>
+            <span class="btn btn-primary btn-sm btn-gradient">Call (Free 24/7)</span>
           </a>
-          <a href="tel:112" class="helpline-item">
+          <a href="tel:112" class="neu-card helpline-item">
             <div class="helpline-details">
               <span class="helpline-name">National Emergency Services</span>
               <span class="helpline-number">112</span>
             </div>
-            <span class="helpline-call-tag">Emergency Call</span>
+            <span class="btn btn-secondary btn-sm">Emergency 112</span>
           </a>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary btn-block" onclick="closeCrisisModal()">I understand</button>
+        <button class="btn btn-primary btn-block btn-gradient" onclick="closeCrisisModal()">Close</button>
       </div>
     </div>
   </div>
 
   <!-- In-App Modal: Report -->
   <div id="modal-report" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-report-title">
-    <div class="modal-card">
+    <div class="neu-card modal-card">
       <div class="modal-header">
         <h3 id="modal-report-title" class="modal-title">Report User</h3>
       </div>
       <div class="modal-body">
         <p class="modal-desc">Select a reason for reporting this user:</p>
         <div class="reason-chips" role="radiogroup" aria-label="Report reason">
-          <button type="button" class="reason-chip active" onclick="selectReportReason(this, 'Harassment')">Harassment</button>
-          <button type="button" class="reason-chip" onclick="selectReportReason(this, 'Fake therapist')">Fake therapist</button>
-          <button type="button" class="reason-chip" onclick="selectReportReason(this, 'Spam')">Spam</button>
-          <button type="button" class="reason-chip" onclick="selectReportReason(this, 'Other')">Other</button>
+          <button type="button" class="neu-chip active" onclick="selectReportReason(this, 'Harassment')">Harassment</button>
+          <button type="button" class="neu-chip" onclick="selectReportReason(this, 'Fake therapist')">Fake therapist</button>
+          <button type="button" class="neu-chip" onclick="selectReportReason(this, 'Spam')">Spam</button>
+          <button type="button" class="neu-chip" onclick="selectReportReason(this, 'Other')">Other</button>
         </div>
         <label for="report-note" class="sr-only">Additional details</label>
-        <textarea id="report-note" rows="2" placeholder="Provide additional details (optional)..."></textarea>
+        <div class="neu-input-wrap">
+          <textarea id="report-note" rows="2" placeholder="Provide additional details (optional)..."></textarea>
+        </div>
       </div>
       <div class="modal-footer modal-footer-row">
-        <button class="btn btn-ghost" onclick="closeReportModal()">Cancel</button>
+        <button class="btn btn-secondary" onclick="closeReportModal()">Cancel</button>
         <button class="btn btn-danger" onclick="submitReport()">Submit Report</button>
       </div>
     </div>
@@ -525,7 +639,7 @@
 
   <!-- In-App Modal: Block Confirmation -->
   <div id="modal-block" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-block-title">
-    <div class="modal-card">
+    <div class="neu-card modal-card">
       <div class="modal-header">
         <h3 id="modal-block-title" class="modal-title">Block User?</h3>
       </div>
@@ -535,7 +649,7 @@
         </p>
       </div>
       <div class="modal-footer modal-footer-row">
-        <button class="btn btn-ghost" onclick="closeBlockModal()">Cancel</button>
+        <button class="btn btn-secondary" onclick="closeBlockModal()">Cancel</button>
         <button class="btn btn-danger" onclick="confirmBlock()">Block User</button>
       </div>
     </div>

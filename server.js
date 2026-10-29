@@ -132,6 +132,26 @@ app.get('/api/conversations', auth, (req, res) => {
   res.json(convos);
 });
 
+app.get('/api/stats', auth, (req, res) => {
+  const now = Date.now();
+  const oneDay = 24 * 60 * 60 * 1000;
+  const postsPerDay = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now - i * oneDay);
+    const dateStr = d.toISOString().split('T')[0];
+    const startTs = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+    const endTs = startTs + oneDay;
+    const row = db.prepare('SELECT COUNT(*) AS count FROM posts WHERE ts >= ? AND ts < ?').get(startTs, endTs);
+    postsPerDay.push({ date: dateStr, count: row ? row.count : 0 });
+  }
+  const roleRows = db.prepare('SELECT role, COUNT(*) AS count FROM users GROUP BY role').all();
+  const roles = { person: 0, therapist: 0, psychiatrist: 0 };
+  roleRows.forEach(r => {
+    if (roles[r.role] !== undefined) roles[r.role] = r.count;
+  });
+  res.json({ postsPerDay, roles });
+});
+
 app.get('/api/messages/:alias', auth, (req, res) => {
   const o = byAlias(req.params.alias);
   if (!o) return res.json([]);
