@@ -42,7 +42,7 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/style.css', (req, res) => res.sendFile(path.join(__dirname, 'style.css')));
 app.get('/app.js', (req, res) => res.sendFile(path.join(__dirname, 'app.js')));
 
-const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 30, message: { error: 'Bahut zyada koshish. Thodi der baad try karein.' } });
+const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 30, message: { error: 'Too many attempts. Please try again later.' } });
 const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
 const clean = (s) => String(s || '').trim().slice(0, 1000);
 const sign = (id) => jwt.sign({ id }, JWT_SECRET, { expiresIn: '30d' });
@@ -105,6 +105,31 @@ app.post('/api/posts', auth, (req, res) => {
   if (!body) return res.status(400).json({ error: 'Write something first.' });
   db.prepare('INSERT INTO posts(user_id, body, ts) VALUES(?,?,?)').run(req.user.id, body, Date.now());
   res.json({ ok: true, crisis: CRISIS.test(body) });
+});
+
+app.get('/api/conversations', auth, (req, res) => {
+  const convos = db.prepare(`
+    SELECT 
+      u.alias,
+      u.role,
+      u.verified,
+      m.body AS lastMessage,
+      m.ts AS lastTs
+    FROM (
+      SELECT 
+        CASE WHEN from_id = ? THEN to_id ELSE from_id END AS partner_id,
+        MAX(id) AS max_msg_id
+      FROM messages
+      WHERE from_id = ? OR to_id = ?
+      GROUP BY partner_id
+    ) latest
+    JOIN messages m ON m.id = latest.max_msg_id
+    JOIN users u ON u.id = latest.partner_id
+    WHERE u.id NOT IN (SELECT blocked FROM blocks WHERE blocker = ?)
+      AND u.id NOT IN (SELECT blocker FROM blocks WHERE blocked = ?)
+    ORDER BY m.ts DESC
+  `).all(req.user.id, req.user.id, req.user.id, req.user.id, req.user.id);
+  res.json(convos);
 });
 
 app.get('/api/messages/:alias', auth, (req, res) => {

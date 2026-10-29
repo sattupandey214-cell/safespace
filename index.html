@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SafeSpace - Anonymous Peer Support</title>
-  <meta name="description" content="SafeSpace ek gumnam peer-support platform hai jahan aap bina kisi jhijhak ke apni baat share kar sakte hain.">
+  <meta name="description" content="SafeSpace is an anonymous, secure peer-support platform to talk through stress, anxiety, or life challenges without judgement.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,22 +12,21 @@
 </head>
 <body>
 
-  <!-- Crisis Banner (visible on every screen, persistent & non-dismissible) -->
+  <!-- Persistent Crisis Helpline Bar (Visible on every screen) -->
   <div id="crisis" class="crisis-banner" role="banner" aria-label="Crisis Support Helpline">
     <div class="crisis-content">
       <svg class="crisis-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
       </svg>
       <span class="crisis-text">
-        Agar aap abhi crisis mein hain, free 24x7 helpline Tele-MANAS: <a href="tel:14416" class="crisis-link">14416</a> par call karein. Emergency mein <a href="tel:112" class="crisis-link">112</a>.
+        In crisis? Call Tele-MANAS <a href="tel:14416" class="crisis-link">14416</a> (free, 24/7) or <a href="tel:112" class="crisis-link">112</a> for emergencies.
       </span>
     </div>
   </div>
 
-  <main class="main-wrapper">
-
-    <!-- Screen 1: Landing / Auth -->
-    <section id="auth" class="auth-section">
+  <!-- Screen 1: Logged-out Landing / Auth Screen -->
+  <section id="auth" class="auth-wrapper">
+    <div class="auth-container">
       <!-- Centered Hero -->
       <header class="auth-hero">
         <div class="brand-logo" aria-hidden="true">
@@ -38,7 +37,7 @@
           </svg>
         </div>
         <h1 class="brand-title">SafeSpace</h1>
-        <p class="brand-tagline">Aapka surakshit, gumnam sahara.</p>
+        <p class="brand-tagline">A safe, anonymous space to talk.</p>
 
         <!-- Anonymity Promise Chips -->
         <div class="anon-chips" aria-label="Anonymity guarantees">
@@ -65,12 +64,12 @@
             No phone
           </span>
         </div>
-        <p class="mute anon-desc">Naam, email, phone, college - kuch bhi nahi. Sirf aapka role dikhta hai.</p>
+        <p class="mute anon-desc">No names, emails, phones, or colleges. Only your anonymous alias and chosen role are visible.</p>
       </header>
 
       <!-- Role Selection Cards -->
       <div class="card auth-card">
-        <h2 class="card-heading">Naya account banayein — apna role chunein</h2>
+        <h2 class="card-heading">Create anonymous account</h2>
 
         <div class="role-grid" role="radiogroup" aria-label="Select your role">
           <!-- Role: Person (Primary / Highlighted) -->
@@ -83,10 +82,10 @@
               </span>
               <div class="role-card-title-group">
                 <span class="role-card-badge badge-person">Person</span>
-                <span class="role-card-title">Main apni baat share karna chahta/chahti hoon</span>
+                <span class="role-card-title">I want to share what I'm going through</span>
               </div>
             </div>
-            <p class="role-card-desc">Stress, anxiety ya mann ki baat bina dar ke anonymous hokar share karein.</p>
+            <p class="role-card-desc">Talk through stress, anxiety, or life challenges in total anonymity.</p>
           </button>
 
           <!-- Role: Therapist -->
@@ -99,10 +98,10 @@
               </span>
               <div class="role-card-title-group">
                 <span class="role-card-badge badge-therapist">Therapist</span>
-                <span class="role-card-title">Therapist ke roop mein judna hai</span>
+                <span class="role-card-title">I'm a therapist</span>
               </div>
             </div>
-            <p class="role-card-desc">Suno, samjho aur supportive, compassionate guidance provide karo.</p>
+            <p class="role-card-desc">Listen with empathy and offer supportive peer guidance.</p>
           </button>
 
           <!-- Role: Psychiatrist -->
@@ -115,145 +114,313 @@
               </span>
               <div class="role-card-title-group">
                 <span class="role-card-badge badge-psychiatrist">Psychiatrist</span>
-                <span class="role-card-title">Psychiatrist ke roop mein judna hai</span>
+                <span class="role-card-title">I'm a psychiatrist</span>
               </div>
             </div>
-            <p class="role-card-desc">Mental health awareness aur clinical peer-support guidance offer karein.</p>
+            <p class="role-card-desc">Share mental health knowledge and clinical peer support.</p>
           </button>
         </div>
 
         <button id="btn-create-account" class="btn btn-primary btn-block" onclick="submitRegistration()">
-          Gumnam Account Banayein
+          Create Anonymous Account
         </button>
 
         <p class="mute disclaimer-text">
-          Therapist/Psychiatrist role abhi verified nahi hota. Isliye unki baat ko medical advice na samjhein.
+          Therapist and Psychiatrist roles are not verified by default. Discussions should not be considered formal medical advice.
         </p>
       </div>
 
       <!-- Login Section -->
       <div class="card auth-card login-card">
-        <h2 class="card-heading card-heading-sm">Pehle se account hai?</h2>
-        <p class="mute login-subtext">Apne purane secret code se wapas judiye.</p>
+        <h2 class="card-heading card-heading-sm">Already have an account?</h2>
+        <p class="mute login-subtext">Enter your 32-character secret code to sign back in.</p>
         <div class="login-input-group">
-          <input id="code" type="text" placeholder="Apna 32-character secret code dalein" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')login()">
-          <button id="btn-login" class="btn btn-primary" onclick="login()">Login</button>
+          <input id="code" type="text" placeholder="Enter your secret code" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')login()">
+          <button id="btn-login" class="btn btn-primary" onclick="login()">Log in</button>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Screen 2: Main App (hidden until auth) -->
-    <section id="app" class="app-section hidden">
-      <!-- Sticky Header -->
-      <header class="app-header">
-        <div class="app-header-brand">
-          <svg viewBox="0 0 24 24" fill="none" class="app-header-logo" aria-hidden="true">
-            <circle cx="12" cy="12" r="10" class="logo-bg" />
-            <path d="M12 6C9 6 7 8.5 7 11.5C7 15 12 19.5 12 19.5C12 19.5 17 15 17 11.5C17 8.5 15 6 12 6Z" class="logo-heart" />
+  <!-- Screen 2: Logged-in App (Twitter/X style 3-column layout) -->
+  <section id="app" class="app-layout hidden">
+
+    <!-- LEFT SIDEBAR (~240px desktop, collapses on tablet) -->
+    <aside class="app-sidebar" aria-label="Main Navigation">
+      <div class="sidebar-top">
+        <!-- Logo -->
+        <div class="sidebar-brand">
+          <svg viewBox="0 0 48 48" fill="none" class="sidebar-logo-mark" aria-hidden="true">
+            <circle cx="24" cy="24" r="22" class="logo-bg" />
+            <path d="M24 10C18 10 14 15 14 21C14 28 24 37 24 37C24 37 34 28 34 21C34 15 30 10 24 10Z" class="logo-heart" />
+            <path d="M20 23C20 20.8 21.8 19 24 19C26.2 19 28 20.8 28 23C28 25.5 24 29 24 29C24 29 20 25.5 20 23Z" class="logo-core" />
           </svg>
-          <span class="app-header-title">SafeSpace</span>
+          <span class="sidebar-brand-name">SafeSpace</span>
         </div>
-        <div class="app-header-user">
+
+        <!-- Navigation Links -->
+        <nav class="sidebar-nav" role="tablist">
+          <button id="t-feed" class="sidebar-nav-item on" onclick="tab('feed')" role="tab" aria-selected="true" aria-label="Home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="nav-label">Home</span>
+          </button>
+
+          <button id="t-people" class="sidebar-nav-item" onclick="tab('people')" role="tab" aria-selected="false" aria-label="Explore">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+            </svg>
+            <span class="nav-label">Explore</span>
+          </button>
+
+          <button id="t-chat" class="sidebar-nav-item" onclick="tab('chat')" role="tab" aria-selected="false" aria-label="Messages">
+            <div class="nav-icon-wrapper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span id="msg-unread-badge" class="unread-pill hidden">0</span>
+            </div>
+            <span class="nav-label">Messages</span>
+          </button>
+
+          <button id="t-profile" class="sidebar-nav-item" onclick="tab('profile')" role="tab" aria-selected="false" aria-label="Profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span class="nav-label">Profile</span>
+          </button>
+        </nav>
+
+        <!-- Prominent Post Button -->
+        <button id="btn-sidebar-post" class="btn btn-primary btn-post-cta" onclick="focusComposer()" aria-label="Create Post">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon mobile-post-icon" aria-hidden="true">
+            <path d="M12 5v14M5 12h14"></path>
+          </svg>
+          <span class="post-btn-text">Post</span>
+        </button>
+      </div>
+
+      <!-- Bottom User Card with Logout -->
+      <div id="sidebar-user-card" class="sidebar-user-footer">
+        <div class="sidebar-user-info" onclick="tab('profile')">
           <div id="me" class="user-identity"></div>
-          <button class="btn btn-ghost btn-sm" onclick="logout()" title="Logout karein">Logout</button>
         </div>
+        <button class="btn btn-ghost btn-sm btn-logout" onclick="logout()" title="Log out" aria-label="Log out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- CENTER COLUMN (max ~600px, main feeds & chats) -->
+    <main class="app-center">
+      <!-- Sticky Top Header Bar -->
+      <header class="center-top-bar">
+        <h2 id="page-title" class="page-title">Home</h2>
       </header>
 
-      <!-- Segmented Control Tabs -->
-      <nav class="tabs-nav" role="tablist" aria-label="Main Navigation">
-        <button id="t-feed" class="tab-btn on" onclick="tab('feed')" role="tab" aria-selected="true" aria-controls="feed">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tab-icon" aria-hidden="true">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-          <span>Posts</span>
-        </button>
-        <button id="t-people" class="tab-btn" onclick="tab('people')" role="tab" aria-selected="false" aria-controls="people">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tab-icon" aria-hidden="true">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-          </svg>
-          <span>Random log</span>
-        </button>
-        <button id="t-chat" class="tab-btn" onclick="tab('chat')" role="tab" aria-selected="false" aria-controls="chat">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tab-icon" aria-hidden="true">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-          </svg>
-          <span>Chat</span>
-        </button>
-      </nav>
-
-      <!-- Tab Content: Feed -->
-      <div id="feed" class="tab-panel" role="tabpanel" aria-labelledby="t-feed">
-        <!-- Post Composer Card -->
-        <div class="card composer-card">
-          <label for="post" class="sr-only">Apni baat likhein</label>
-          <textarea id="post" rows="3" maxlength="1000" placeholder="Apni baat likhein... (jo mann mein hai bina kisi jhijhak ke)" oninput="updatePostCounter()"></textarea>
+      <!-- 1. Home / Feed Panel -->
+      <section id="feed" class="center-panel" role="tabpanel" aria-labelledby="t-feed">
+        <!-- Inline Composer Card -->
+        <div class="composer-box">
+          <div class="composer-main">
+            <div id="composer-user-avatar" class="avatar-circle composer-avatar" aria-hidden="true">U</div>
+            <div class="composer-input-wrap">
+              <label for="post" class="sr-only">What's on your mind? Share freely...</label>
+              <textarea id="post" rows="2" maxlength="1000" placeholder="What's on your mind? Share freely..." oninput="updatePostCounter()"></textarea>
+            </div>
+          </div>
           <div class="composer-footer">
             <span id="post-counter" class="char-counter">0 / 1000</span>
-            <button id="btn-post" class="btn btn-primary" onclick="sendPost()" disabled>Post karein</button>
+            <button id="btn-post" class="btn btn-primary btn-sm" onclick="sendPost()" disabled>Post</button>
           </div>
         </div>
 
-        <!-- Posts List -->
-        <div id="posts" class="posts-stream" aria-live="polite"></div>
-      </div>
+        <!-- Flat Posts Feed -->
+        <div id="posts" class="posts-feed-flat" aria-live="polite"></div>
+      </section>
 
-      <!-- Tab Content: Random People -->
-      <div id="people" class="tab-panel hidden" role="tabpanel" aria-labelledby="t-people">
-        <div class="people-toolbar">
-          <button id="btn-load-people" class="btn btn-secondary refresh-btn" onclick="loadPeople()">
+      <!-- 2. Explore / People Panel -->
+      <section id="people" class="center-panel hidden" role="tabpanel" aria-labelledby="t-people">
+        <div class="explore-toolbar">
+          <p class="explore-subtitle mute">Discover members and peers online</p>
+          <button id="btn-load-people" class="btn btn-secondary btn-sm refresh-btn" onclick="loadPeople()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
               <polyline points="23 4 23 10 17 10"></polyline>
               <polyline points="1 20 1 14 7 14"></polyline>
               <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
             </svg>
-            <span>Naye random log dikhayein</span>
+            <span>Show new people</span>
           </button>
         </div>
-        <div id="plist" class="people-grid" aria-live="polite"></div>
-      </div>
+        <div id="plist" class="people-list-flat" aria-live="polite"></div>
+      </section>
 
-      <!-- Tab Content: Chat -->
-      <div id="chat" class="tab-panel hidden" role="tabpanel" aria-labelledby="t-chat">
-        <div class="chat-container">
-          <!-- Chat Header -->
-          <div class="chat-header">
-            <div class="chat-user-info">
-              <div id="chat-avatar" class="avatar-circle avatar-chat-header" aria-hidden="true">💬</div>
-              <div class="chat-title-group">
-                <b id="with">Kisi ko chunein (Random log tab se)</b>
+      <!-- 3. Messages Panel (Two-Pane DM layout) -->
+      <section id="chat" class="center-panel messages-panel hidden" role="tabpanel" aria-labelledby="t-chat">
+        <div class="dms-wrapper">
+          <!-- Left Pane: Conversations List -->
+          <div id="dms-sidebar-pane" class="dms-convos-pane">
+            <div class="dms-search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input id="convos-search" type="text" placeholder="Search conversations..." oninput="filterConversations()">
+            </div>
+            <div id="convos-list" class="convos-list-container" aria-live="polite"></div>
+          </div>
+
+          <!-- Right Pane: Active Chat Room -->
+          <div id="dms-chat-pane" class="dms-chat-pane">
+            <!-- Chat Header -->
+            <div class="chat-header-bar">
+              <button id="btn-back-to-convos" class="btn btn-ghost btn-sm btn-back-mobile" onclick="backToConvosList()" aria-label="Back to conversations">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <div class="chat-header-user">
+                <div id="chat-avatar" class="avatar-circle chat-avatar-sm" aria-hidden="true">💬</div>
+                <div class="chat-header-meta">
+                  <b id="with">Select a conversation</b>
+                </div>
+              </div>
+              <div class="chat-header-actions">
+                <button class="btn btn-ghost btn-sm" onclick="reportCur()" title="Report user">Report</button>
+                <button class="btn btn-ghost btn-sm text-danger" onclick="blockCur()" title="Block user">Block</button>
               </div>
             </div>
-            <div class="chat-actions">
-              <button class="btn btn-ghost btn-sm" onclick="reportCur()" title="User ko report karein" aria-label="Report current user">Report</button>
-              <button class="btn btn-ghost btn-sm text-danger" onclick="blockCur()" title="User ko block karein" aria-label="Block current user">Block</button>
+
+            <!-- Messages Area -->
+            <div id="msgs" class="chat-feed-stream" aria-live="polite"></div>
+
+            <!-- Sticky Chat Input Bar -->
+            <div class="chat-bottom-composer">
+              <textarea id="txt" rows="1" placeholder="Type a message..." autocomplete="off" onkeydown="handleChatKeydown(event)"></textarea>
+              <button id="btn-send-dm" class="btn btn-primary" onclick="sendDM()" aria-label="Send message">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+                <span>Send</span>
+              </button>
             </div>
           </div>
+        </div>
+      </section>
 
-          <!-- Messages List -->
-          <div id="msgs" class="chat-messages" aria-live="polite"></div>
-
-          <!-- Chat Input Bar -->
-          <div class="chat-input-bar">
-            <input id="txt" type="text" placeholder="Message likhein..." autocomplete="off" onkeydown="if(event.key==='Enter')sendDM()">
-            <button id="btn-send-dm" class="btn btn-primary" onclick="sendDM()" aria-label="Send message">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true">
-                <line x1="22" y1="2" x2="11" y2="13"></line>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-              </svg>
-              <span>Send</span>
-            </button>
+      <!-- 4. Profile Panel -->
+      <section id="profile" class="center-panel hidden" role="tabpanel" aria-labelledby="t-profile">
+        <div class="profile-card">
+          <div id="profile-avatar" class="avatar-circle profile-avatar-lg" aria-hidden="true">U</div>
+          <h3 id="profile-alias" class="profile-title">Anonymous Member</h3>
+          <div id="profile-badge-row" class="profile-badge-row"></div>
+          <div class="profile-meta-card">
+            <div class="meta-row">
+              <span class="meta-label">Identity Status</span>
+              <span class="meta-value">100% Anonymous</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Encrypted Alias</span>
+              <span id="profile-alias-code" class="meta-value mono">Protected</span>
+            </div>
           </div>
+          <button class="btn btn-secondary btn-block" onclick="logout()">Log out of SafeSpace</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- RIGHT COLUMN (~300px desktop, hidden on smaller screens) -->
+    <aside class="app-right" aria-label="Emergency and Suggestions">
+      <!-- Card: Need to talk now? -->
+      <div class="sidebar-widget helpline-widget">
+        <h3 class="widget-title">Need to talk now?</h3>
+        <p class="widget-desc mute">Support is available 24/7. These helplines are confidential and free of charge.</p>
+        <div class="helpline-quick-list">
+          <a href="tel:14416" class="helpline-quick-card">
+            <div class="hl-info">
+              <span class="hl-title">Tele-MANAS Helpline</span>
+              <span class="hl-num">14416</span>
+            </div>
+            <span class="hl-tag">Free 24/7</span>
+          </a>
+          <a href="tel:112" class="helpline-quick-card">
+            <div class="hl-info">
+              <span class="hl-title">National Emergency</span>
+              <span class="hl-num">112</span>
+            </div>
+            <span class="hl-tag">Emergency</span>
+          </a>
         </div>
       </div>
-    </section>
-  </main>
+
+      <!-- Card: Who to talk to -->
+      <div class="sidebar-widget">
+        <h3 class="widget-title">Who to talk to</h3>
+        <p class="widget-desc mute">Suggested peers and professionals</p>
+        <div id="right-suggested-people" class="suggested-people-list"></div>
+      </div>
+
+      <!-- Small Footer Note -->
+      <footer class="app-right-footer">
+        <p class="footer-note mute">SafeSpace is peer support, not a substitute for professional mental health care.</p>
+      </footer>
+    </aside>
+
+    <!-- MOBILE BOTTOM TAB BAR (fixed below ~700px) -->
+    <nav class="mobile-bottom-nav" role="tablist" aria-label="Mobile Navigation">
+      <button class="mobile-nav-btn on" id="mob-t-feed" onclick="tab('feed')" role="tab" aria-selected="true" aria-label="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span class="mob-label">Home</span>
+      </button>
+
+      <button class="mobile-nav-btn" id="mob-t-people" onclick="tab('people')" role="tab" aria-selected="false" aria-label="Explore">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+        </svg>
+        <span class="mob-label">Explore</span>
+      </button>
+
+      <button class="mobile-nav-btn" id="mob-t-chat" onclick="tab('chat')" role="tab" aria-selected="false" aria-label="Messages">
+        <div class="nav-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+          </svg>
+          <span id="mob-unread-dot" class="unread-dot hidden"></span>
+        </div>
+        <span class="mob-label">Messages</span>
+      </button>
+
+      <button class="mobile-nav-btn" id="mob-t-profile" onclick="tab('profile')" role="tab" aria-selected="false" aria-label="Profile">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="nav-icon" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span class="mob-label">Profile</span>
+      </button>
+    </nav>
+
+    <!-- MOBILE FLOATING ACTION BUTTON (Floating '+') -->
+    <button id="mobile-fab" class="mobile-fab-btn" onclick="focusComposer()" aria-label="Create new post">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
+  </section>
 
   <!-- In-App Modal: Secret Code Display (Registration) -->
   <div id="modal-code" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-code-title">
@@ -265,11 +432,11 @@
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
         </div>
-        <h3 id="modal-code-title" class="modal-title">Apna Secret Code Save Karein</h3>
+        <h3 id="modal-code-title" class="modal-title">Save Your Secret Code</h3>
       </div>
       <div class="modal-body">
         <p class="modal-desc">
-          SafeSpace poori tarah gumnam hai. Dobara login karne ke liye sirf yahi ek tareeka hai. Yeh code <strong>kabhi recover nahi ho sakta</strong>.
+          SafeSpace is completely anonymous. This secret code is the only way to sign back into your account. It <strong>cannot be recovered</strong> if lost.
         </p>
         <div class="code-box-container">
           <code id="display-code" class="secret-code-text"></code>
@@ -283,12 +450,12 @@
         </div>
         <label class="modal-checkbox-row">
           <input type="checkbox" id="check-code-saved" onchange="handleCodeCheckChange()">
-          <span>Maine code save kar liya hai</span>
+          <span>I've saved my secret code</span>
         </label>
       </div>
       <div class="modal-footer">
         <button id="btn-confirm-code" class="btn btn-primary btn-block" onclick="proceedAfterCodeSave()" disabled>
-          SafeSpace Shuru Karein
+          Enter SafeSpace
         </button>
       </div>
     </div>
@@ -303,11 +470,11 @@
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
         </div>
-        <h3 id="modal-crisis-title" class="modal-title">Aap Akele Nahi Hain</h3>
+        <h3 id="modal-crisis-title" class="modal-title">You Are Not Alone</h3>
       </div>
       <div class="modal-body">
         <p class="modal-desc">
-          Agar aap pareshan hain ya kisi crisis se guzar rahe hain, kripya bina kisi jhijhak ke baat karein. Yeh helplines bilkul muft aur confidential hain:
+          If you are experiencing acute distress or need immediate support, please reach out. These helplines are free, confidential, and available 24/7:
         </p>
         <div class="helplines-list">
           <a href="tel:14416" class="helpline-item">
@@ -315,7 +482,7 @@
               <span class="helpline-name">Tele-MANAS (Mental Health Helpline)</span>
               <span class="helpline-number">14416</span>
             </div>
-            <span class="helpline-call-tag">Call karein (Free 24x7)</span>
+            <span class="helpline-call-tag">Call (Free 24/7)</span>
           </a>
           <a href="tel:112" class="helpline-item">
             <div class="helpline-details">
@@ -327,7 +494,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary btn-block" onclick="closeCrisisModal()">Theek hai</button>
+        <button class="btn btn-primary btn-block" onclick="closeCrisisModal()">I understand</button>
       </div>
     </div>
   </div>
@@ -336,10 +503,10 @@
   <div id="modal-report" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-report-title">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modal-report-title" class="modal-title">Report Karein</h3>
+        <h3 id="modal-report-title" class="modal-title">Report User</h3>
       </div>
       <div class="modal-body">
-        <p class="modal-desc">Report ka reason chunein:</p>
+        <p class="modal-desc">Select a reason for reporting this user:</p>
         <div class="reason-chips" role="radiogroup" aria-label="Report reason">
           <button type="button" class="reason-chip active" onclick="selectReportReason(this, 'Harassment')">Harassment</button>
           <button type="button" class="reason-chip" onclick="selectReportReason(this, 'Fake therapist')">Fake therapist</button>
@@ -347,11 +514,11 @@
           <button type="button" class="reason-chip" onclick="selectReportReason(this, 'Other')">Other</button>
         </div>
         <label for="report-note" class="sr-only">Additional details</label>
-        <textarea id="report-note" rows="2" placeholder="Koi aur detail batana chahein to yahan likhein (optional)..."></textarea>
+        <textarea id="report-note" rows="2" placeholder="Provide additional details (optional)..."></textarea>
       </div>
       <div class="modal-footer modal-footer-row">
         <button class="btn btn-ghost" onclick="closeReportModal()">Cancel</button>
-        <button class="btn btn-danger" onclick="submitReport()">Report Bhejein</button>
+        <button class="btn btn-danger" onclick="submitReport()">Submit Report</button>
       </div>
     </div>
   </div>
@@ -360,16 +527,16 @@
   <div id="modal-block" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-block-title">
     <div class="modal-card">
       <div class="modal-header">
-        <h3 id="modal-block-title" class="modal-title">User ko Block Karein?</h3>
+        <h3 id="modal-block-title" class="modal-title">Block User?</h3>
       </div>
       <div class="modal-body">
         <p class="modal-desc" id="block-confirm-text">
-          Kya aap is user ko block karna chahte hain? Iske baad aap dono ek doosre ko message nahi kar payenge.
+          Are you sure you want to block this user? You will no longer be able to message each other or see each other's posts.
         </p>
       </div>
       <div class="modal-footer modal-footer-row">
         <button class="btn btn-ghost" onclick="closeBlockModal()">Cancel</button>
-        <button class="btn btn-danger" onclick="confirmBlock()">Block Karein</button>
+        <button class="btn btn-danger" onclick="confirmBlock()">Block User</button>
       </div>
     </div>
   </div>
