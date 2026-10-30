@@ -51,6 +51,8 @@
   --role-person: #E2794D;
   --role-therapist: #3BB59D;
   --role-psychiatrist: #8792EA;
+  --role-gynecologist: #E47D9D;
+  --role-psychologist: #D0A84D;
 }
 
 /* Light Theme via prefers-color-scheme */
@@ -84,6 +86,8 @@
     --role-person: #B8522A;
     --role-therapist: #157967;
     --role-psychiatrist: #46519E;
+    --role-gynecologist: #A83F61;
+    --role-psychologist: #89670D;
   }
 }
 
@@ -208,6 +212,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visib
 .role-icon-person { color: var(--role-person); }
 .role-icon-therapist { color: var(--role-therapist); }
 .role-icon-psychiatrist { color: var(--role-psychiatrist); }
+.role-icon-gynecologist { color: var(--role-gynecologist); }
+.role-icon-psychologist { color: var(--role-psychologist); }
 
 .role-tag {
   display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase;
@@ -216,6 +222,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visib
 .tag-person { color: var(--role-person); }
 .tag-therapist { color: var(--role-therapist); }
 .tag-psychiatrist { color: var(--role-psychiatrist); }
+.tag-gynecologist { color: var(--role-gynecologist); }
+.tag-psychologist { color: var(--role-psychologist); }
 .role-card-title { font-weight: 600; font-size: var(--font-size-base); color: var(--ink); }
 .role-card-desc { font-size: var(--font-size-sm); color: var(--ink-muted); line-height: 1.45; padding-left: 48px; }
 .disclaimer-text { font-size: var(--font-size-sm); margin-top: var(--space-3); text-align: center; }
@@ -224,6 +232,13 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visib
 .login-subtext { font-size: var(--font-size-sm); margin-bottom: var(--space-3); }
 .login-input-group { display: flex; gap: var(--space-2); }
 .login-input-group .neu-input-wrap { flex: 1; }
+.professional-fields, .professional-login-fields { display: flex; flex-direction: column; gap: var(--space-2); }
+.professional-fields { margin: var(--space-4) 0; padding: var(--space-4); border-radius: var(--radius-md); box-shadow: var(--neu-inset-sm); }
+.professional-fields-title { font-size: var(--font-size-base); }
+.professional-fields-note { font-size: var(--font-size-sm); line-height: 1.45; }
+.professional-fields > label:not(.professional-consent) { font-size: var(--font-size-sm); font-weight: 600; }
+.professional-consent { display: flex; align-items: flex-start; gap: var(--space-2); margin-top: var(--space-2); font-size: var(--font-size-sm); line-height: 1.45; }
+.professional-consent input { margin-top: 3px; flex-shrink: 0; }
 
 /* Screen 2: Twitter/X 3-Column Layout */
 .app-layout {
@@ -319,7 +334,47 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visib
   font-size: var(--font-size-base); line-height: 1.55; color: var(--ink);
   white-space: pre-wrap; word-break: break-word; margin-bottom: var(--space-3);
 }
-.post-action-bar { display: flex; justify-content: flex-end; }
+.post-action-bar { display: flex; justify-content: flex-start; gap: var(--space-2); }
+
+/* Reply button in post action bar */
+.post-action-btn {
+  display: inline-flex; align-items: center; gap: 5px; background: transparent; border: 0;
+  color: var(--ink-muted); font-size: var(--font-size-sm); font-weight: 500; cursor: pointer;
+  padding: 4px 10px; border-radius: var(--radius-pill); transition: all var(--transition);
+  font-family: inherit;
+}
+.post-action-btn:hover { background: var(--accent-light); color: var(--accent); box-shadow: var(--neu-raised-sm); }
+.post-action-btn svg { width: 14px; height: 14px; }
+.post-action-btn.reply-btn { color: var(--accent); }
+
+/* Parent reply snippet shown above a reply post */
+.reply-quote {
+  background: var(--card); border-left: 3px solid var(--accent); border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 6px 10px; margin-bottom: 8px; box-shadow: var(--neu-inset-sm);
+}
+.reply-quote-alias { font-size: 11px; font-weight: 700; color: var(--accent); margin-bottom: 2px; }
+.reply-quote-body { font-size: var(--font-size-xs); color: var(--ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Reply composer card */
+.reply-composer-box {
+  margin-bottom: var(--space-4); border-left: 3px solid var(--accent);
+  animation: slideDown 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes slideDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.reply-context-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--space-3); padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--line);
+}
+.reply-label { font-size: var(--font-size-sm); color: var(--ink-muted); }
+.reply-label strong { color: var(--accent); }
+.reply-parent-preview {
+  font-size: var(--font-size-xs); color: var(--ink-muted);
+  background: var(--card); border-left: 2px solid var(--line);
+  padding: 4px 8px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: var(--space-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
 
 /* 2. Explore / People & Community Graphs (Section 4b) */
 .community-stats-card { margin-bottom: var(--space-5); }
@@ -509,6 +564,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visib
 .badge.person { color: var(--role-person); }
 .badge.therapist { color: var(--role-therapist); }
 .badge.psychiatrist { color: var(--role-psychiatrist); }
+.badge.gynecologist { color: var(--role-gynecologist); }
+.badge.psychologist { color: var(--role-psychologist); }
 .ver { font-size: 11px; font-weight: 700; color: var(--role-therapist); margin-left: 4px; }
 .avatar-circle {
   width: 40px; height: 40px; border-radius: 50%; display: inline-flex;
@@ -661,6 +718,27 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visib
   transition: transform var(--transition), box-shadow var(--transition);
 }
 .person-row:hover { transform: translateY(-1px); box-shadow: var(--neu-raised); }
+.person-row-actions { display: flex; align-items: center; gap: var(--space-2); flex-shrink: 0; }
+.professional-alias, .professional-education, .professional-status { color: var(--ink-muted); font-size: var(--font-size-xs); overflow-wrap: anywhere; }
+.professional-status { color: var(--danger); }
+.professional-status.professional-verified { color: var(--role-therapist); }
+.professional-contacts { display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: var(--font-size-xs); }
+.professional-contact { color: var(--accent); overflow-wrap: anywhere; }
+.professional-review-summary { color: var(--ink-muted); font-size: var(--font-size-xs); }
+.review-modal-card { max-height: min(85vh, 760px); overflow-y: auto; }
+.review-summary { display: flex; flex-direction: column; gap: 5px; margin-bottom: var(--space-4); }
+.review-average { color: var(--accent); font-size: var(--font-size-lg); }
+.review-level { font-weight: 700; }
+.review-notice, .review-empty { margin-top: var(--space-3); font-size: var(--font-size-sm); }
+.review-form { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); margin-bottom: var(--space-4); border-radius: var(--radius-md); box-shadow: var(--neu-inset-sm); }
+.review-form label { font-size: var(--font-size-sm); font-weight: 600; }
+.review-select { width: 100%; padding: 10px 12px; border: 0; border-radius: var(--radius-md); background: var(--card); color: var(--ink); font: inherit; box-shadow: var(--neu-inset-sm); }
+.review-guidance { font-size: var(--font-size-xs); line-height: 1.4; }
+.review-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.review-item { padding: var(--space-3); border-radius: var(--radius-md); background: var(--card); box-shadow: var(--neu-raised-sm); }
+.review-item-heading { display: flex; justify-content: space-between; gap: var(--space-3); font-size: var(--font-size-sm); }
+.review-rating-display { color: var(--accent); }
+.review-remark { margin-top: var(--space-2); font-size: var(--font-size-sm); overflow-wrap: anywhere; }
 
 /* Spinner animation used on refresh button icon */
 .refresh-icon-spin { animation: spin 0.7s linear infinite; }

@@ -1,6 +1,6 @@
 # SafeSpace
 
-Ek anonymous peer-support website. Jo log stress, depression ya kisi problem se guzar rahe hain, wo apni baat share kar sakte hain, aur Therapist/Psychiatrist bhi jud sakte hain. **Kisi ka naam, email, phone ya college kahin store ya show nahi hota.** Sirf role (Person / Therapist / Psychiatrist) aur ek random alias dikhta hai.
+Ek peer-support website. Person accounts anonymous rehte hain. Professional accounts apna naam, email, phone, qualification, aur institution public profile par dikhane ke liye consent dete hain; password ka sirf secure hash store hota hai. Contact ownership is not verified by this site, and professional qualifications are self-reported until an admin separately verifies them.
 
 > SafeSpace peer support hai, therapy ya medical treatment ka replacement nahi.
 
@@ -8,11 +8,13 @@ Ek anonymous peer-support website. Jo log stress, depression ya kisi problem se 
 
 | Feature | Detail |
 |---|---|
-| Anonymous signup | Sirf role chunna hota hai. Random alias milta hai (jaise `Person-48213`) |
-| Secret-code login | Email/password nahi. 32-character code, DB mein sirf SHA-256 hash |
+| Person signup | Sirf role chunna hota hai. Random alias milta hai (jaise `Person-48213`) |
+| Person login | Apna sign-in code chuno ya readable word-and-number code generate karo; DB mein sirf hash |
+| Professional signup/login | Name, phone, email, qualification, institution, and password; profile details are public after explicit consent, and passwords are stored as scrypt hashes |
 | Posts feed | Role badge ke saath posts |
 | Random log | Koi bhi kisi ko 1-to-1 message kar sakta hai (Socket.IO, real-time) |
-| Verified badge | Admin license check karke Therapist/Psychiatrist ko verify karta hai |
+| Peer-support reviews | People can anonymously rate and leave remarks for professionals after messaging them; levels are based on received ratings |
+| Verified badge | Admin license check karke professional roles ko verify karta hai |
 | Block / Report | Har chat se, report admin ko dikhti hai |
 | Crisis detection | "marna chahta", "suicide" jaise words par helpline dikhti hai |
 | Safety basics | Rate limit, Helmet headers, XSS-safe rendering, 1000-char limit |
@@ -56,6 +58,10 @@ Backend hi frontend ko serve karta hai, to ek hi server chalana hai.
    npm run dev        # code badalne par auto-restart
    ```
 5. Browser mein `http://localhost:3000` kholo. Testing ke liye do alag browsers (ya incognito) mein do accounts banao.
+
+Person signup ke waqt apna sign-in code chuno, ya field khaali chhod do taaki readable word-and-number code generate ho. Naye custom codes 15 characters tak ho sakte hain. Chhote ya aasani se guess hone wale codes se bacho; code kho gaya to account recover nahi ho sakta. Professional signup ke liye email/phone aur kam se kam 12-character password chahiye. Professional contact details consent ke baad public hoti hain.
+
+People can review a Therapist, Psychiatrist, Gynecologist, or Psychologist after exchanging messages. Each person has one editable 1-to-5 rating per professional and may add a remark. Peer levels are calculated from rating count and average; they are not medical credentials or a measure of clinical outcomes. Professional credentials are self-reported unless an admin verifies them.
 
 ## Environment variables (`backend/.env`)
 

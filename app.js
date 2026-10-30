@@ -6,6 +6,9 @@ let pendingAuthData = null;
 let currentSelectedRole = 'person';
 let selectedReportReason = 'Harassment';
 let conversationsCache = [];
+let currentReviewAlias = null;
+
+const PROFESSIONAL_ROLES = ['therapist', 'psychiatrist', 'gynecologist', 'psychologist'];
 
 // Local read-tracking storage
 function getReadTimestamps() {
@@ -116,7 +119,16 @@ function closeCrisisModal() {
 // Role Selection on Landing Screen
 function selectRole(role) {
   currentSelectedRole = role;
-  for (const r of ['person', 'therapist', 'psychiatrist']) {
+  const isProfessional = PROFESSIONAL_ROLES.includes(role);
+  $('anon-chips').classList.toggle('hidden', isProfessional);
+  document.querySelector('.anon-desc').textContent = isProfessional
+    ? 'Professional profiles display the details you provide and agree to share.'
+    : 'No names, emails, phones, or colleges are collected for Person accounts.';
+  $('professional-fields').classList.toggle('hidden', !isProfessional);
+  $('signup-code-field').classList.toggle('hidden', isProfessional);
+  $('signup-heading').textContent = isProfessional ? 'Create professional account' : 'Create anonymous account';
+  $('btn-create-account').textContent = isProfessional ? 'Create Professional Account' : 'Create Anonymous Account';
+  for (const r of ['person', ...PROFESSIONAL_ROLES]) {
     const card = $('role-' + r);
     if (card) {
       card.classList.toggle('active', r === role);
@@ -126,13 +138,45 @@ function selectRole(role) {
 }
 
 function submitRegistration() {
-  register(currentSelectedRole);
+  if (PROFESSIONAL_ROLES.includes(currentSelectedRole)) {
+    const profile = {
+      fullName: $('professional-name').value.trim(),
+      email: $('professional-email').value.trim(),
+      phone: $('professional-phone').value.trim(),
+      qualification: $('professional-qualification').value.trim(),
+      institution: $('professional-institution').value.trim(),
+      password: $('professional-password').value,
+      publicContactConsent: $('professional-public-consent').checked
+    };
+    if (!profile.fullName || !profile.email || !profile.phone || !profile.qualification || !profile.institution || !profile.password) {
+      return showToast('Complete all professional profile fields.', 'error');
+    }
+    if (profile.password.length < 12) return showToast('Password must be at least 12 characters.', 'error');
+    if (!profile.publicContactConsent) return showToast('Confirm that these profile details will be public.', 'error');
+    return register(currentSelectedRole, '', profile);
+  }
+  const codeInput = $('preferred-code');
+  const code = codeInput ? codeInput.value.trim() : '';
+  if (code.length > 15) return showToast('Your sign-in code must be 15 characters or fewer.', 'error');
+  register(currentSelectedRole, code);
 }
 
 // ---------- Auth ----------
-async function register(role) {
-  const d = await api('register', { method: 'POST', body: { role } });
+async function register(role, code, professionalProfile = null) {
+  const body = professionalProfile ? { role, ...professionalProfile } : { role, code };
+  const d = await api('register', { method: 'POST', body });
   if (d.error) return showToast(d.error, 'error');
+
+  if (professionalProfile) {
+    $('professional-password').value = '';
+    $('professional-public-consent').checked = false;
+    start(d);
+    showToast('Professional profile created. Your credentials are self-reported until verified.');
+    return;
+  }
+
+  const codeInput = $('preferred-code');
+  if (codeInput) codeInput.value = '';
 
   pendingAuthData = d;
   const display = $('display-code');
@@ -195,6 +239,16 @@ async function login() {
 
   const d = await api('login', { method: 'POST', body: { code } });
   if (d.error) return showToast(d.error, 'error');
+  start(d);
+}
+
+async function loginProfessional() {
+  const identifier = $('professional-identifier').value.trim();
+  const password = $('professional-login-password').value;
+  if (!identifier || !password) return showToast('Enter your professional email or phone and password.', 'error');
+  const d = await api('professional-login', { method: 'POST', body: { identifier, password } });
+  if (d.error) return showToast(d.error, 'error');
+  $('professional-login-password').value = '';
   start(d);
 }
 
@@ -331,6 +385,75 @@ function updatePostCounter() {
   }
 }
 
+function updateReplyCounter() {
+  const replyEl = $('reply-post');
+  const val = replyEl ? replyEl.value : '';
+  const counter = $('reply-counter');
+  if (counter) counter.textContent = val.length + ' / 1000';
+  const btn = $('btn-reply-post');
+  if (btn) btn.disabled = !val.trim();
+  if (replyEl) {
+    replyEl.style.height = 'auto';
+    replyEl.style.height = Math.min(replyEl.scrollHeight, 180) + 'px';
+  }
+}
+
+// State for the reply composer
+let replyingToPostId = null;
+let replyingToAlias = null;
+
+function replyTo(postId, alias, bodyPreview) {
+  replyingToPostId = postId;
+  replyingToAlias = alias;
+
+  const box = $('reply-composer');
+  const aliasEl = $('reply-to-alias');
+  const preview = $('reply-parent-preview');
+  const textarea = $('reply-post');
+  const btn = $('btn-reply-post');
+  const replyAvatar = $('reply-user-avatar');
+
+  if (aliasEl) aliasEl.textContent = alias;
+  if (preview) preview.textContent = bodyPreview;
+  if (btn) btn.disabled = true;
+  if (textarea) { textarea.value = ''; textarea.style.height = 'auto'; }
+  if (replyAvatar && me) {
+    replyAvatar.style.backgroundColor = getAvatarBg(me.alias);
+    replyAvatar.style.color = getAvatarColor(me.alias);
+    replyAvatar.textContent = me.alias.charAt(0).toUpperCase();
+  }
+
+  if (box) {
+    box.classList.remove('hidden');
+    // Smooth scroll to reply composer
+    setTimeout(() => box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+  }
+  if (textarea) setTimeout(() => textarea.focus(), 80);
+}
+
+function cancelReply() {
+  replyingToPostId = null;
+  replyingToAlias = null;
+  const box = $('reply-composer');
+  if (box) box.classList.add('hidden');
+  const textarea = $('reply-post');
+  if (textarea) textarea.value = '';
+}
+
+async function sendReply() {
+  const textarea = $('reply-post');
+  const body = textarea ? textarea.value.trim() : '';
+  if (!body || !replyingToPostId) return;
+
+  const d = await api('posts', { method: 'POST', body: { body, replyTo: replyingToPostId } });
+  if (d.error) return showToast(d.error, 'error');
+
+  cancelReply();
+  loadPosts();
+  if (d.crisis) crisisNote();
+  showToast('Reply posted.');
+}
+
 async function loadPosts() {
   const list = await api('posts');
   const box = $('posts');
@@ -349,6 +472,10 @@ async function loadPosts() {
 
   for (const p of list) {
     const row = el('div', 'post-row');
+
+    // If this is a reply, indent it slightly
+    if (p.reply_to) row.style.marginLeft = '16px';
+
     const avatar = createAvatar(p.alias, p.role);
 
     const wrap = el('div', 'post-content-wrap');
@@ -361,10 +488,35 @@ async function loadPosts() {
     const timeEl = el('span', 'post-time-stamp', timeAgo(p.ts));
     header.append(headerLeft, timeEl);
 
-    const bodyEl = el('div', 'post-body-text', p.body);
+    // Quoted parent post (if this is a reply)
+    if (p.reply_to && p.parent_alias) {
+      const quote = el('div', 'reply-quote');
+      const qAlias = el('div', 'reply-quote-alias', p.parent_alias);
+      const qBody = el('div', 'reply-quote-body', p.parent_body || '');
+      quote.append(qAlias, qBody);
+      wrap.append(header, quote);
+    } else {
+      wrap.append(header);
+    }
 
-    // Subtle message action on post
+    const bodyEl = el('div', 'post-body-text', p.body);
+    wrap.append(bodyEl);
+
+    // Action bar — Reply (everyone) + Message (others only)
     const actions = el('div', 'post-action-bar');
+
+    // Reply button — visible to everyone
+    const replyBtn = el('button', 'post-action-btn reply-btn');
+    replyBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 17 4 12 9 7"></polyline><path d="M20 18v-2a4 4 0 0 0-4-4H4"></path></svg>`;
+    replyBtn.append(document.createTextNode(' Reply'));
+    replyBtn.title = 'Reply to ' + p.alias;
+    replyBtn.onclick = (e) => {
+      e.stopPropagation();
+      replyTo(p.id, p.alias, p.body);
+    };
+    actions.append(replyBtn);
+
+    // Message button — only for other users' posts
     if (me && p.alias !== me.alias) {
       const msgBtn = el('button', 'post-action-btn', 'Message');
       msgBtn.title = 'Message ' + p.alias;
@@ -375,7 +527,7 @@ async function loadPosts() {
       actions.append(msgBtn);
     }
 
-    wrap.append(header, bodyEl, actions);
+    wrap.append(actions);
     row.append(avatar, wrap);
     box.append(row);
   }
@@ -394,6 +546,7 @@ async function sendPost() {
   loadPosts();
   if (d.crisis) crisisNote();
 }
+
 
 // ---------- Explore & Right Sidebar Suggested People ----------
 async function loadPeople() {
@@ -426,13 +579,51 @@ async function loadPeople() {
     const row = el('div', 'person-row');
     const avatar = createAvatar(u.alias, u.role);
     const info = el('div', 'person-row-info');
-    const aliasEl = el('span', 'person-row-alias', u.alias);
+    const aliasEl = el('span', 'person-row-alias', u.full_name || u.alias);
     const roleBadge = badge(u.role, u.verified);
     info.append(aliasEl, roleBadge);
+    if (PROFESSIONAL_ROLES.includes(u.role)) {
+      if (u.full_name) info.append(el('span', 'professional-alias', u.alias));
+      if (u.qualification || u.institution) {
+        info.append(el('span', 'professional-education', [u.qualification, u.institution].filter(Boolean).join(' · ')));
+      }
+      if (u.verified) {
+        info.append(el('span', 'professional-status professional-verified', 'Education credentials admin-verified'));
+      } else if (u.qualification || u.institution) {
+        info.append(el('span', 'professional-status', 'Credentials self-reported · Not verified'));
+      }
+      if (u.email || u.phone) {
+        const contacts = el('div', 'professional-contacts');
+        info.append(el('span', 'professional-status', 'Contact details not verified by this site'));
+        if (u.email) {
+          const emailLink = el('a', 'professional-contact', u.email);
+          emailLink.href = `mailto:${u.email}`;
+          contacts.append(emailLink);
+        }
+        if (u.phone) {
+          const phoneLink = el('a', 'professional-contact', u.phone);
+          phoneLink.href = `tel:${u.phone}`;
+          contacts.append(phoneLink);
+        }
+        info.append(contacts);
+      }
+      const reviewSummary = u.review_count
+        ? `${u.review_average.toFixed(1)} / 5 · ${u.review_count} ${u.review_count === 1 ? 'review' : 'reviews'} · ${u.review_level}`
+        : u.review_level;
+      info.append(el('span', 'professional-review-summary', reviewSummary));
+    }
 
+    const actions = el('div', 'person-row-actions');
+    if (PROFESSIONAL_ROLES.includes(u.role)) {
+      const reviewBtn = el('button', 'btn btn-ghost btn-sm', 'Reviews');
+      reviewBtn.setAttribute('aria-label', `View peer support reviews for ${u.alias}`);
+      reviewBtn.onclick = () => openReviewModal(u.alias);
+      actions.append(reviewBtn);
+    }
     const msgBtn = el('button', 'btn btn-secondary btn-sm', 'Message');
     msgBtn.onclick = () => openChat(u.alias, u.role);
-    row.append(avatar, info, msgBtn);
+    actions.append(msgBtn);
+    row.append(avatar, info, actions);
     box.append(row);
 
     // 2. Right sidebar suggestions (first 4)
@@ -457,6 +648,80 @@ async function loadPeople() {
 
   // Draw community charts from the real people list
   buildCommunityCharts(list);
+}
+
+async function openReviewModal(alias) {
+  currentReviewAlias = alias;
+  $('modal-review').classList.remove('hidden');
+  $('review-summary').textContent = 'Loading peer reviews...';
+  $('review-list').replaceChildren();
+  $('review-form').classList.add('hidden');
+
+  const data = await api('reviews/' + encodeURIComponent(alias));
+  if (data.error) {
+    $('review-summary').textContent = data.error;
+    return;
+  }
+
+  $('modal-review-title').textContent = `Peer Support Reviews · ${data.alias}`;
+  const average = data.count ? `${data.average.toFixed(1)} / 5` : 'No ratings yet';
+  $('review-summary').replaceChildren(
+    el('strong', 'review-average', average),
+    el('span', 'review-level', data.level.label),
+    el('span', 'mute', `${data.count} ${data.count === 1 ? 'review' : 'reviews'} · Anonymous feedback`),
+    el('span', 'mute review-guidance', 'Levels reflect peer feedback only; they do not verify credentials or medical outcomes.')
+  );
+
+  const form = $('review-form');
+  if (data.canReview) {
+    form.classList.remove('hidden');
+    $('review-rating').value = data.myReview ? String(data.myReview.rating) : '5';
+    $('review-remark').value = data.myReview ? data.myReview.remark : '';
+    $('btn-submit-review').textContent = data.myReview ? 'Update Review' : 'Submit Review';
+  } else {
+    form.classList.add('hidden');
+    if (me && me.role === 'person') {
+      $('review-summary').append(el('p', 'mute review-notice', 'Exchange messages with this member before leaving a review.'));
+    }
+  }
+
+  const reviewList = $('review-list');
+  reviewList.replaceChildren();
+  if (!data.reviews.length) {
+    reviewList.append(el('p', 'mute review-empty', 'No peer reviews yet.'));
+    return;
+  }
+  data.reviews.forEach((review) => {
+    const item = el('article', 'review-item');
+    const heading = el('div', 'review-item-heading');
+    const rating = el('strong', 'review-rating-display', `${review.rating} / 5`);
+    const date = el('time', 'mute', new Date(review.ts).toLocaleDateString());
+    heading.append(rating, date);
+    item.append(heading);
+    if (review.remark) item.append(el('p', 'review-remark', review.remark));
+    reviewList.append(item);
+  });
+}
+
+function closeReviewModal() {
+  $('modal-review').classList.add('hidden');
+  currentReviewAlias = null;
+}
+
+async function submitReview() {
+  if (!currentReviewAlias) return;
+  const d = await api('reviews', {
+    method: 'POST',
+    body: {
+      alias: currentReviewAlias,
+      rating: Number($('review-rating').value),
+      remark: $('review-remark').value.trim()
+    }
+  });
+  if (d.error) return showToast(d.error, 'error');
+  showToast('Peer review saved');
+  await openReviewModal(currentReviewAlias);
+  loadPeople();
 }
 
 // ---------- Messages / WhatsApp DM Style ----------
@@ -1101,13 +1366,15 @@ function buildCommunityCharts(peopleList) {
   drawActivityBarChart(actData);
 
   // Role distribution from the people list
-  const counts = { person: 0, therapist: 0, psychiatrist: 0 };
+  const counts = { person: 0, therapist: 0, psychiatrist: 0, gynecologist: 0, psychologist: 0 };
   (peopleList || []).forEach(u => { if (counts[u.role] !== undefined) counts[u.role]++; });
   // Always show at least 1 per category so the donut is useful even with few users
   const ROLE_COLORS = {
     person: 'var(--role-person)',
     therapist: 'var(--role-therapist)',
-    psychiatrist: 'var(--role-psychiatrist)'
+    psychiatrist: 'var(--role-psychiatrist)',
+    gynecologist: 'var(--role-gynecologist)',
+    psychologist: 'var(--role-psychologist)'
   };
   const segments = Object.entries(counts)
     .filter(([, v]) => v > 0)

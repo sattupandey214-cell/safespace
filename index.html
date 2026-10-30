@@ -37,7 +37,7 @@
         <p class="brand-tagline">A safe, anonymous space to talk.</p>
 
         <!-- Anonymity Promise Chips (Neumorphic raised pills) -->
-        <div class="anon-chips" aria-label="Anonymity guarantees">
+        <div id="anon-chips" class="anon-chips" aria-label="Anonymity guarantees">
           <span class="neu-pill">
             <svg viewBox="0 0 20 20" fill="currentColor" class="chip-icon" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
@@ -61,12 +61,12 @@
             No phone
           </span>
         </div>
-        <p class="mute anon-desc">No names, emails, phones, or colleges. Only your anonymous alias and chosen role are visible.</p>
+        <p class="mute anon-desc">Person accounts stay anonymous. Professional profiles display the details you provide and agree to share.</p>
       </header>
 
       <!-- Role Selection Cards -->
       <div class="neu-card auth-card">
-        <h2 class="card-heading">Create anonymous account</h2>
+        <h2 id="signup-heading" class="card-heading">Create anonymous account</h2>
 
         <div class="role-grid" role="radiogroup" aria-label="Select your role">
           <!-- Role: Person -->
@@ -116,6 +116,69 @@
             </div>
             <p class="role-card-desc">Share mental health knowledge and clinical peer support.</p>
           </button>
+
+          <!-- Role: Gynecologist -->
+          <button type="button" class="neu-role-card" id="role-gynecologist" onclick="selectRole('gynecologist')" role="radio" aria-checked="false">
+            <div class="role-card-header">
+              <span class="role-icon-box role-icon-gynecologist" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="10" cy="8" r="5"></circle>
+                  <path d="M10 13v8m-4-4h8m-4-4a5 5 0 0 0 5-5"></path>
+                </svg>
+              </span>
+              <div class="role-card-title-group">
+                <span class="role-tag tag-gynecologist">Gynecologist</span>
+                <span class="role-card-title">I'm a gynecologist</span>
+              </div>
+            </div>
+            <p class="role-card-desc">Offer respectful support around reproductive and gynecological health.</p>
+          </button>
+
+          <!-- Role: Psychologist -->
+          <button type="button" class="neu-role-card" id="role-psychologist" onclick="selectRole('psychologist')" role="radio" aria-checked="false">
+            <div class="role-card-header">
+              <span class="role-icon-box role-icon-psychologist" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3a7 7 0 0 0-4 12.75V20h8v-4.25A7 7 0 0 0 12 3z"></path>
+                  <path d="M9 20h6m-5 3h4"></path>
+                </svg>
+              </span>
+              <div class="role-card-title-group">
+                <span class="role-tag tag-psychologist">Psychologist</span>
+                <span class="role-card-title">I'm a psychologist</span>
+              </div>
+            </div>
+            <p class="role-card-desc">Offer thoughtful listening and supportive psychological guidance.</p>
+          </button>
+        </div>
+
+        <div id="professional-fields" class="professional-fields hidden">
+          <h3 class="professional-fields-title">Professional profile</h3>
+          <p class="mute professional-fields-note">These details will be visible to all members. Education credentials are self-reported, and email and phone ownership are not verified by this site.</p>
+          <label for="professional-name">Full name</label>
+          <div class="neu-input-wrap"><input id="professional-name" type="text" maxlength="80" autocomplete="name" placeholder="Your name"></div>
+          <label for="professional-email">Email</label>
+          <div class="neu-input-wrap"><input id="professional-email" type="email" maxlength="254" autocomplete="email" placeholder="name@example.com"></div>
+          <label for="professional-phone">Phone number</label>
+          <div class="neu-input-wrap"><input id="professional-phone" type="tel" maxlength="24" autocomplete="tel" placeholder="Include country code if needed"></div>
+          <label for="professional-qualification">Degree or program of study</label>
+          <div class="neu-input-wrap"><input id="professional-qualification" type="text" maxlength="120" placeholder="Qualification completed or currently pursuing"></div>
+          <label for="professional-institution">College or institution</label>
+          <div class="neu-input-wrap"><input id="professional-institution" type="text" maxlength="160" placeholder="College or institution name"></div>
+          <label for="professional-password">Password (12 characters minimum)</label>
+          <div class="neu-input-wrap"><input id="professional-password" type="password" minlength="12" maxlength="128" autocomplete="new-password" placeholder="Create a password"></div>
+          <label class="professional-consent">
+            <input id="professional-public-consent" type="checkbox">
+            <span>I understand these details will be public, and this site does not verify email or phone ownership.</span>
+          </label>
+        </div>
+
+        <div id="signup-code-field" class="signup-code-field">
+          <label class="mute" for="preferred-code">Choose a sign-in code (optional)</label>
+          <div class="neu-input-wrap">
+            <input id="preferred-code" type="text" maxlength="15" placeholder="Use a private word or number, or leave blank for a generated code" autocomplete="off" spellcheck="false">
+          </div>
+          <p class="mute">Use a code others cannot easily guess. Anyone who knows it can access your account.</p>
         </div>
 
         <button id="btn-create-account" class="btn btn-primary btn-block btn-gradient" onclick="submitRegistration()">
@@ -123,19 +186,31 @@
         </button>
 
         <p class="mute disclaimer-text">
-          Therapist and Psychiatrist roles are not verified by default. Discussions should not be considered formal medical advice.
+          Professional roles are not verified by default. Discussions should not be considered formal medical advice.
         </p>
       </div>
 
       <!-- Login Section -->
-      <div class="neu-card auth-card login-card">
+      <div class="neu-card auth-card login-card" id="code-login-card">
         <h2 class="card-heading card-heading-sm">Already have an account?</h2>
-        <p class="mute login-subtext">Enter your 32-character secret code to sign back in.</p>
+        <p class="mute login-subtext">Sign in with your saved code.</p>
         <div class="login-input-group">
           <div class="neu-input-wrap">
-            <input id="code" type="text" placeholder="Enter your secret code" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')login()">
+            <input id="code" type="text" maxlength="64" placeholder="Enter your sign-in code" autocomplete="off" spellcheck="false" onkeydown="if(event.key==='Enter')login()">
           </div>
           <button id="btn-login" class="btn btn-primary" onclick="login()">Log in</button>
+        </div>
+      </div>
+
+      <div class="neu-card auth-card login-card">
+        <h2 class="card-heading card-heading-sm">Professional sign-in</h2>
+        <p class="mute login-subtext">Use the email address or phone number on your public profile and your password.</p>
+        <div class="professional-login-fields">
+          <label class="sr-only" for="professional-identifier">Email or phone number</label>
+          <div class="neu-input-wrap"><input id="professional-identifier" type="text" autocomplete="username" placeholder="Email or phone number"></div>
+          <label class="sr-only" for="professional-login-password">Password</label>
+          <div class="neu-input-wrap"><input id="professional-login-password" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key==='Enter')loginProfessional()"></div>
+          <button class="btn btn-primary btn-block" onclick="loginProfessional()">Sign in as professional</button>
         </div>
       </div>
     </div>
@@ -255,9 +330,32 @@
           </div>
         </div>
 
+        <!-- Inline Reply Composer (slides in below a post when Reply is tapped) -->
+        <div id="reply-composer" class="neu-card reply-composer-box hidden" aria-live="polite">
+          <div class="reply-context-bar">
+            <span class="reply-label">Replying to <strong id="reply-to-alias"></strong></span>
+            <button class="btn btn-icon-round btn-sm" onclick="cancelReply()" aria-label="Cancel reply" title="Cancel reply">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-icon" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+          </div>
+          <div id="reply-parent-preview" class="reply-parent-preview"></div>
+          <div class="composer-main">
+            <div id="reply-user-avatar" class="avatar-circle composer-avatar" aria-hidden="true">U</div>
+            <div class="composer-input-wrap">
+              <label for="reply-post" class="sr-only">Write your reply...</label>
+              <textarea id="reply-post" rows="2" maxlength="1000" placeholder="Write your reply..." oninput="updateReplyCounter()"></textarea>
+            </div>
+          </div>
+          <div class="composer-footer">
+            <span id="reply-counter" class="char-counter">0 / 1000</span>
+            <button id="btn-reply-post" class="btn btn-primary btn-sm btn-gradient" onclick="sendReply()" disabled>Reply</button>
+          </div>
+        </div>
+
         <!-- Raised Posts Feed (Neumorphic Cards with breathing room) -->
         <div id="posts" class="posts-feed-neu" aria-live="polite"></div>
       </section>
+
 
       <!-- 2. Explore / People Panel -->
       <section id="people" class="center-panel hidden" role="tabpanel" aria-labelledby="t-people">
@@ -544,11 +642,11 @@
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
         </div>
-        <h3 id="modal-code-title" class="modal-title">Save Your Secret Code</h3>
+        <h3 id="modal-code-title" class="modal-title">Save Your Sign-In Code</h3>
       </div>
       <div class="modal-body">
         <p class="modal-desc">
-          SafeSpace is completely anonymous. This secret code is the only way to sign back into your account. It <strong>cannot be recovered</strong> if lost.
+          SafeSpace is completely anonymous. This code is the only way to sign back into your account. It <strong>cannot be recovered</strong> if lost.
         </p>
         <div class="neu-code-box">
           <code id="display-code" class="secret-code-text"></code>
@@ -562,7 +660,7 @@
         </div>
         <label class="modal-checkbox-row">
           <input type="checkbox" id="check-code-saved" onchange="handleCodeCheckChange()">
-          <span>I've saved my secret code</span>
+          <span>I've saved my sign-in code</span>
         </label>
       </div>
       <div class="modal-footer">
@@ -633,6 +731,38 @@
       <div class="modal-footer modal-footer-row">
         <button class="btn btn-secondary" onclick="closeReportModal()">Cancel</button>
         <button class="btn btn-danger" onclick="submitReport()">Submit Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- In-App Modal: Peer review for professional support -->
+  <div id="modal-review" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modal-review-title">
+    <div class="neu-card modal-card review-modal-card">
+      <div class="modal-header">
+        <h3 id="modal-review-title" class="modal-title">Peer Support Reviews</h3>
+      </div>
+      <div class="modal-body">
+        <div id="review-summary" class="review-summary"></div>
+        <div id="review-form" class="review-form hidden">
+          <label for="review-rating">Your rating</label>
+          <select id="review-rating" class="review-select">
+            <option value="5">5 - Excellent support</option>
+            <option value="4">4 - Helpful</option>
+            <option value="3">3 - Okay</option>
+            <option value="2">2 - Not very helpful</option>
+            <option value="1">1 - Not helpful</option>
+          </select>
+          <label for="review-remark">Remark (optional)</label>
+          <div class="neu-input-wrap">
+            <textarea id="review-remark" rows="3" maxlength="500" placeholder="What felt helpful about their peer support?"></textarea>
+          </div>
+          <button id="btn-submit-review" class="btn btn-primary btn-gradient btn-block" onclick="submitReview()">Submit Review</button>
+          <p class="mute review-guidance">Review the support you received, not medical outcomes. Be respectful and do not include private details.</p>
+        </div>
+        <div id="review-list" class="review-list"></div>
+      </div>
+      <div class="modal-footer modal-footer-row">
+        <button class="btn btn-secondary" onclick="closeReviewModal()">Close</button>
       </div>
     </div>
   </div>
